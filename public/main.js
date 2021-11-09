@@ -2,6 +2,7 @@ const { app, BrowserWindow } = require('electron')
 
 const path = require('path')
 const isDev = require('electron-is-dev')
+require('./server/index');
 
 require('@electron/remote/main').initialize()
 
