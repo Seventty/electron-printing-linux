@@ -1,8 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { allPrinters, printJob } = require('./lib/connection.js');
-const { fileURLToPath } = require('url');
-const { path, dirname } = require('path');
+const path = require('path');
 
 const PORT = process.env.PORT || 3001;
 
@@ -10,11 +9,12 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
+app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.use(cors({origin: 'http://localhost:3000', credentials: true,}));
 
 app.post('/print', function(req, res) {
     console.log("Printing: ", req.body);
-    //printJob(req.body.textToPrint);
+    printJob(req.body.textToPrint);
 });
 
 app.get("/getPrinters", (req, res) => {
@@ -28,4 +28,4 @@ app.listen(PORT, () => {
 
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-});
+  });
